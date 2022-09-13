@@ -1,0 +1,50 @@
+from inspect import Parameter
+import multiprocessing
+from os import name
+import sys
+import random
+from multiprocessing import Process
+import time
+import multiprocessing
+import qrandom
+start = time.perf_counter()
+randomlist =[]
+count = 0 
+user_list = []
+
+    
+def f(user_list,randomlist) :  
+    
+    input_string = input('Enter 5 Numbers from 1 - 45   ')
+    print("\n")
+    user_list = input_string.split()
+    # print list
+    print('list: ', user_list)
+    # convert each item to int type
+    
+    for i in range(len(user_list)):
+        # convert each item to int type
+        user_list[i] = int(user_list[i]) 
+    
+    while user_list != randomlist :   
+        global count
+        randomlist =qrandom.sample(range(1, 46),5)
+        #print(randomlist)
+        count= count +1 
+        print(f'\r{count} Counting...   ', end='', flush=True)
+        print(f'{randomlist}', end='', flush=True)
+        sys.stdout.flush()
+    print("\n") 
+    time.sleep(0.3)
+    print("Matching Number/s in  List",randomlist)
+    # Allow time to view results before program terminat5es.
+    finish = time.perf_counter()
+    print(f'It took {finish-start: .2f} second(s) to finish')
+if __name__ == '__main__':
+    while user_list != randomlist :
+        jobs = []
+        p = multiprocessing.Process(target=f, args=(user_list,randomlist))
+        jobs.append(p)
+        p.start()
+   
+f(user_list,randomlist)
